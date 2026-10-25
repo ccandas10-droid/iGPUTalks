@@ -15,19 +15,6 @@ jobs:
     - name: Checkout Code Base
       uses: actions/checkout@v4
 
-    - name: Install Lilu Dependency
-      run: |
-        mkdir -p LiluDependencies
-        cd LiluDependencies
-        echo "Bypassing GitHub API entirely to prevent blank URL issue..."
-        LILU_URL="https://github.com"
-        echo "Downloading directly from: $LILU_URL"
-        curl -L -o Lilu.zip "$LILU_URL"
-        echo "Unzipping Lilu..."
-        unzip -q Lilu.zip -d Lilu
-        mv Lilu/Lilu.kext ../
-        cd ..
-
     - name: Set Kext Product Versioning
       run: |
         echo "Stamping Version 29.41.10 (26Y29.41)"
