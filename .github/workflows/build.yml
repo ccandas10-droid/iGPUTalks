@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build iGPUTalks Kext
-    runs-on: macos-14 # Uses Apple Silicon / Intel Xcode-capable environment
+    runs-on: macos-14
 
     steps:
     - name: Checkout Code Base
@@ -19,10 +19,17 @@ jobs:
       run: |
         mkdir -p LiluDependencies
         cd LiluDependencies
-        echo "Fetching latest Lilu Release for linking headers..."
-        curl -L -o Lilu.zip $(curl -s https://github.com | grep "browser_download_url.*RELEASE.zip" | cut -d '"' -f 4)
+        echo "Downloading latest Lilu RELEASE build..."
+        # Using a reliable, direct download pattern that doesn't parse JSON arrays manually
+        curl -L -o Lilu.zip "https://github.com" || curl -L -o Lilu.zip "https://github.com"
+        
+        # Fallback to general release zip if version incremented
+        if [ ! -f Lilu.zip ] || [ ! -s Lilu.zip ]; then
+          echo "Falling back to fallback parsing technique..."
+          curl -L -o Lilu.zip $(curl -s https://github.com | grep "browser_download_url.*RELEASE.zip" | cut -d : -f 2,3 | tr -d '"[:space:]')
+        fi
+        
         unzip Lilu.zip -d Lilu
-        # Move Lilu.kext to your project root or framework lookup search path
         mv Lilu/Lilu.kext ../
         cd ..
 
