@@ -17,21 +17,11 @@ jobs:
 
     - name: Embed Version and Build Kext Binary
       run: |
-        echo "Compiling iGPUTalks using raw clang compiler shortcuts..."
+        echo "Compiling iGPUTalks with correct Kernel framework mappings..."
         mkdir -p iGPUTalks.kext/Contents/MacOS
-        
-        # C++ dosyalarını macOS Kernel altyapısına uygun parametrelerle derliyoruz
-        clang++ -Xconnector -stdlib=libc++ -nostdinc++ \
-          -fno-builtin -fno-exceptions -fno-rtti -fno-common \
-          -mkernel -target x86_64-apple-macos12.0 \
-          -I./Lilu.kext/Contents/Headers \
-          -isysroot $(xcrun --sdk macosx --show-sdk-path) \
-          iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
-
-        # Info.plist dosyasını kext paketi içine taşıyoruz
+        SDK_PATH=$(xcrun --sdk macosx --show-sdk-path)
+        clang++ -stdlib=libc++ -nostdinc++ -fno-builtin -fno-exceptions -fno-rtti -fno-common -mkernel -target x86_64-apple-macos12.0 -I./Lilu.kext/Contents/Headers -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers" -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers/IOKit" -isysroot "$SDK_PATH" iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
         cp iGPUTalks/Info.plist iGPUTalks.kext/Contents/Info.plist
-        
-        # Sürüm bilgilerini basıyoruz
         /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks.kext/Contents/Info.plist
         /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks.kext/Contents/Info.plist
 
