@@ -1,67 +1,21 @@
-name: CI Build Process
-
-on:
-  push:
-    branches: [ "main", "master" ]
-  pull_request:
-    branches: [ "main", "master" ]
-
-jobs:
-  build:
-    name: Build iGPUTalks Kext
-    runs-on: macos-14
-
-    steps:
-    - name: Checkout Code Base
-      uses: actions/checkout@v4
-
     - name: Install Lilu Dependency
       run: |
         mkdir -p LiluDependencies
         cd LiluDependencies
-        echo "Fetching real download URL from GitHub API..."
-        LILU_URL=$(curl -s https://github.com | grep "browser_download_url" | grep -i "RELEASE.zip" | head -n 1 | cut -d '"' -f 4)
+        echo "Fetching real download URL from GitHub API using jq..."
+        
+        # JQ kullanarak RELEASE.zip dosyasının URL'ini hatasız ve tırnaksız olarak çekiyoruz
+        LILU_URL=$(curl -s https://github.com | jq -r '.assets[] | select(.name | contains("RELEASE.zip")) | .browser_download_url')
+        
+        if [ -z "$LILU_URL" ] || [ "$LILU_URL" = "null" ]; then
+          echo "Error: Could not parse Lilu download URL."
+          exit 1
+        fi
+        
         echo "Downloading from: $LILU_URL"
-        curl -L -H "User-Agent: Awesome-Octocat-App" -o Lilu.zip "$LILU_URL"
+        curl -L -o Lilu.zip "$LILU_URL"
+        
         echo "Unzipping Lilu..."
         unzip -q Lilu.zip -d Lilu
         mv Lilu/Lilu.kext ../
         cd ..
-
-    - name: Set Kext Product Versioning
-      run: |
-        echo "Stamping Version 29.41.10 (26Y29.41)"
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks/Info.plist
-        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks/Info.plist
-
-    - name: Build Debug Configuration
-      run: |
-        xcodebuild -project iGPUTalks.xcodeproj \
-                   -scheme iGPUTalks \
-                   -configuration Debug \
-                   -derivedDataPath build/Debug \
-                   BUILD_DIR=build/Debug/Outputs \
-                   ONLY_ACTIVE_ARCH=NO
-
-    - name: Build Release Configuration
-      run: |
-        xcodebuild -project iGPUTalks.xcodeproj \
-                   -scheme iGPUTalks \
-                   -configuration Release \
-                   -derivedDataPath build/Release \
-                   BUILD_DIR=build/Release/Outputs \
-                   ONLY_ACTIVE_ARCH=NO
-
-    - name: Package Artifacts
-      run: |
-        mkdir -p Products
-        cd build/Release/Outputs/Release/
-        zip -r ../../../../Products/iGPUTalks-29.41.10-RELEASE.zip iGPUTalks.kext
-        cd ../../../../build/Debug/Outputs/Debug/
-        zip -r ../../../../Products/iGPUTalks-29.41.10-DEBUG.zip iGPUTalks.kext
-
-    - name: Upload Compiled Kext Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: iGPUTalks-Builds
-        path: Products/*.zip
