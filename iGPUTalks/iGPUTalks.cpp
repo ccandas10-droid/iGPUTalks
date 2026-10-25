@@ -1,6 +1,4 @@
 #include "iGPUTalks.hpp"
-#include <Headers/plugin_start.hpp>
-#include <Headers/kern_api.hpp>
 
 OSDefineMetaClassAndStructors(iGPUTalks, IOService)
 
@@ -30,4 +28,3 @@ void iGPUTalks::free(void) {
     IOLog("iGPUTalks: Context freed.\n");
     IOService::free();
 }
-EOF
