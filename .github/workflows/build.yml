@@ -17,12 +17,12 @@ jobs:
 
     - name: Embed Version and Build Kext Binary
       run: |
-        echo "Compiling iGPUTalks with recursive Lilu mapping..."
+        echo "Compiling iGPUTalks with internal header structure..."
         mkdir -p iGPUTalks.kext/Contents/MacOS
         SDK_PATH=$(xcrun --sdk macosx --show-sdk-path)
         
-        # Lilu'nun hem üst klasörünü hem de iç Headers klasörünü arama yollarına (Include paths) dahil ediyoruz
-        clang++ -std=c++17 -stdlib=libc++ -nostdinc++ -fno-builtin -fno-exceptions -fno-rtti -fno-common -mkernel -target x86_64-apple-macos12.0 -I. -I./Lilu.kext -I./Lilu.kext/Contents/Headers -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers" -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers/IOKit" -isysroot "$SDK_PATH" iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
+        # Derleyicinin iGPUTalks klasörü altındaki Headers'ı bulabilmesi için -IiGPUTalks ekliyoruz
+        clang++ -std=c++17 -stdlib=libc++ -nostdinc++ -fno-builtin -fno-exceptions -fno-rtti -fno-common -mkernel -target x86_64-apple-macos12.0 -IiGPUTalks -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers" -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers/IOKit" -isysroot "$SDK_PATH" iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
         
         cp iGPUTalks/Info.plist iGPUTalks.kext/Contents/Info.plist
         /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks.kext/Contents/Info.plist
