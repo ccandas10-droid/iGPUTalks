@@ -12,28 +12,38 @@ jobs:
     runs-on: macos-14
 
     steps:
-    - name: Checkout Code Base
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Embed Version and Build Kext Binary
-      run: |
-        echo "Compiling iGPUTalks with internal header structure..."
-        mkdir -p iGPUTalks.kext/Contents/MacOS
-        SDK_PATH=$(xcrun --sdk macosx --show-sdk-path)
-        
-        # Derleyicinin iGPUTalks klasörü altındaki Headers'ı bulabilmesi için -IiGPUTalks ekliyoruz
-        clang++ -std=c++17 -stdlib=libc++ -nostdinc++ -fno-builtin -fno-exceptions -fno-rtti -fno-common -mkernel -target x86_64-apple-macos12.0 -IiGPUTalks -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers" -I"$SDK_PATH/System/Library/Frameworks/Kernel.framework/Headers/IOKit" -isysroot "$SDK_PATH" iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
-        
-        cp iGPUTalks/Info.plist iGPUTalks.kext/Contents/Info.plist
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks.kext/Contents/Info.plist
-        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks.kext/Contents/Info.plist
+    - name: Get MacKernelSDK
+      run: git clone --depth 1 https://github.com/acidanthera/MacKernelSDK.git
 
-    - name: Package Artifacts
+    - name: Set version
+      run: |
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks/Info.plist
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks/Info.plist
+
+    - name: Build Debug
+      run: |
+        xcodebuild -project iGPUTalks.xcodeproj -target iGPUTalks \
+                   -configuration Debug \
+                   CONFIGURATION_BUILD_DIR="$PWD/build/Debug" \
+                   ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO
+
+    - name: Build Release
+      run: |
+        xcodebuild -project iGPUTalks.xcodeproj -target iGPUTalks \
+                   -configuration Release \
+                   CONFIGURATION_BUILD_DIR="$PWD/build/Release" \
+                   ARCHS=x86_64 ONLY_ACTIVE_ARCH=NO CODE_SIGNING_ALLOWED=NO
+
+    - name: Package
       run: |
         mkdir -p Products
-        zip -r Products/iGPUTalks-29.41.10-RELEASE.zip iGPUTalks.kext
+        (cd build/Release && zip -r ../../Products/iGPUTalks-29.41.10-RELEASE.zip iGPUTalks.kext)
+        (cd build/Debug && zip -r ../../Products/iGPUTalks-29.41.10-DEBUG.zip iGPUTalks.kext)
 
-    - name: Upload Compiled Kext Artifacts
+    - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: iGPUTalks-Builds
