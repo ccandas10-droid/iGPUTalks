@@ -1,6 +1,7 @@
 #ifndef iGPUTalks_hpp
 #define iGPUTalks_hpp
 
+#include <IOKit/IOLib.h>
 #include <IOKit/IOService.h>
 
 class iGPUTalks : public IOService {
