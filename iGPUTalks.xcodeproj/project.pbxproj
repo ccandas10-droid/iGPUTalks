@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01000001/* iGPUTalks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 02000001 /* iGPUTalks.cpp */; };
+		A10000000000000000000001 /* iGPUTalks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* iGPUTalks.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		02000001 /* iGPUTalks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = iGPUTalks.cpp; sourceTree = "<group>"; };
-		02000002 /* iGPUTalks.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = iGPUTalks.hpp; sourceTree = "<group>"; };
-		02000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		02000004 /* iGPUTalks.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.kernel-extension; includeInIndex = 0; path = iGPUTalks.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000001 /* iGPUTalks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = iGPUTalks.cpp; sourceTree = "<group>"; };
+		A20000000000000000000002 /* iGPUTalks.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = iGPUTalks.hpp; sourceTree = "<group>"; };
+		A20000000000000000000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A20000000000000000000004 /* iGPUTalks.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.kernel-extension; includeInIndex = 0; path = iGPUTalks.kext; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		03000001 /* Frameworks */ = {
+		A30000000000000000000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -28,33 +28,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04000001 = {
+		A40000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				04000002 /* iGPUTalks */,
-				02000004 /* iGPUTalks.kext */,
+				A40000000000000000000002 /* iGPUTalks */,
+				A40000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		04000002 /* iGPUTalks */ = {
+		A40000000000000000000002 /* iGPUTalks */ = {
 			isa = PBXGroup;
 			children = (
-				02000001 /* iGPUTalks.cpp */,
-				02000002 /* iGPUTalks.hpp */,
-				02000003 /* Info.plist */,
+				A20000000000000000000001 /* iGPUTalks.cpp */,
+				A20000000000000000000002 /* iGPUTalks.hpp */,
+				A20000000000000000000003 /* Info.plist */,
 			);
 			path = iGPUTalks;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000004 /* iGPUTalks.kext */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		05000001 /* iGPUTalks */ = {
+		A50000000000000000000001 /* iGPUTalks */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 07000002 /* Build configuration list for PBXNativeTarget "iGPUTalks" */;
+			buildConfigurationList = A70000000000000000000002 /* Build configuration list for PBXNativeTarget "iGPUTalks" */;
 			buildPhases = (
-				03000001 /* Frameworks */,
-				06000001 /* Sources */,
+				A60000000000000000000002 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -62,18 +70,18 @@
 			);
 			name = iGPUTalks;
 			productName = iGPUTalks;
-			productReference = 02000004 /* iGPUTalks.kext */;
+			productReference = A20000000000000000000004 /* iGPUTalks.kext */;
 			productType = "com.apple.product-type.kernel-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		06000000 /* Project object */ = {
+		A60000000000000000000001 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1540;
 			};
-			buildConfigurationList = 07000001 /* Build configuration list for PBXProject "iGPUTalks" */;
+			buildConfigurationList = A70000000000000000000001 /* Build configuration list for PBXProject "iGPUTalks" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -81,117 +89,120 @@
 				en,
 				Base,
 			);
-			mainGroup = 04000001;
-			productRefGroup = 04000001;
+			mainGroup = A40000000000000000000001;
+			productRefGroup = A40000000000000000000003 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				05000001 /* iGPUTalks */,
+				A50000000000000000000001 /* iGPUTalks */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		06000001 /* Sources */ = {
+		A60000000000000000000002 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01000001 /* iGPUTalks.cpp in Sources */,
+				A10000000000000000000001 /* iGPUTalks.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		07000003 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				MODULE_NAME = com.yourusername.iGPUTalks;
-				MODULE_VERSION = 29.41.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourusername.iGPUTalks;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = iGPUTalks/Info.plist;
-				KEXT_OUTPUT_SERVER_MAIN_HEADER = NO;
-				CODE_SIGN_IDENTITY = "-";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/LiluDependencies/Lilu";
-			};
-			name = Debug;
-		};
-		07000004 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				MODULE_NAME = com.yourusername.iGPUTalks;
-				MODULE_VERSION = 29.41.10;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourusername.iGPUTalks;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				INFOPLIST_FILE = iGPUTalks/Info.plist;
-				KEXT_OUTPUT_SERVER_MAIN_HEADER = NO;
-				CODE_SIGN_IDENTITY = "-";
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/LiluDependencies/Lilu";
-			};
-			name = Release;
-		};
-		07000005 /* Debug Project Defaults */ = {
+		A80000000000000000000001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		07000006 /* Release Project Defaults */ = {
+		A80000000000000000000002 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				ARCHS = x86_64;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A80000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/MacKernelSDK/Headers";
+				INFOPLIST_FILE = iGPUTalks/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MacKernelSDK/Library/x86_64";
+				MODULE_NAME = com.yourusername.iGPUTalks;
+				MODULE_VERSION = 29.41.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourusername.iGPUTalks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A80000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/MacKernelSDK/Headers";
+				INFOPLIST_FILE = iGPUTalks/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MacKernelSDK/Library/x86_64";
+				MODULE_NAME = com.yourusername.iGPUTalks;
+				MODULE_VERSION = 29.41.10;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourusername.iGPUTalks;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		07000001 /* Build configuration list for PBXProject "iGPUTalks" */ = {
+		A70000000000000000000001 /* Build configuration list for PBXProject "iGPUTalks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				07000005 /* Debug Project Defaults */,
-				07000006 /* Release Project Defaults */,
+				A80000000000000000000001 /* Debug */,
+				A80000000000000000000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		07000002 /* Build configuration list for PBXNativeTarget "iGPUTalks" */ = {
+		A70000000000000000000002 /* Build configuration list for PBXNativeTarget "iGPUTalks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				07000003 /* Debug */,
-				07000004 /* Release */,
+				A80000000000000000000003 /* Debug */,
+				A80000000000000000000004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 06000000 /* Project object */;
+	rootObject = A60000000000000000000001 /* Project object */;
 }
-EOF
-
-echo "iGPUTalks.xcodeproj template created successfully!"
