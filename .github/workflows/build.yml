@@ -15,37 +15,30 @@ jobs:
     - name: Checkout Code Base
       uses: actions/checkout@v4
 
-    - name: Set Kext Product Versioning
+    - name: Embed Version and Build Kext Binary
       run: |
-        echo "Stamping Version 29.41.10 (26Y29.41)"
-        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks/Info.plist
-        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks/Info.plist
+        echo "Compiling iGPUTalks using raw clang compiler shortcuts..."
+        mkdir -p iGPUTalks.kext/Contents/MacOS
+        
+        # C++ dosyalarını macOS Kernel altyapısına uygun parametrelerle derliyoruz
+        clang++ -Xconnector -stdlib=libc++ -nostdinc++ \
+          -fno-builtin -fno-exceptions -fno-rtti -fno-common \
+          -mkernel -target x86_64-apple-macos12.0 \
+          -I./Lilu.kext/Contents/Headers \
+          -isysroot $(xcrun --sdk macosx --show-sdk-path) \
+          iGPUTalks/iGPUTalks.cpp -o iGPUTalks.kext/Contents/MacOS/iGPUTalks
 
-    - name: Build Debug Configuration
-      run: |
-        xcodebuild -project iGPUTalks.xcodeproj \
-                   -scheme iGPUTalks \
-                   -configuration Debug \
-                   -derivedDataPath build/Debug \
-                   BUILD_DIR=build/Debug/Outputs \
-                   ONLY_ACTIVE_ARCH=NO
-
-    - name: Build Release Configuration
-      run: |
-        xcodebuild -project iGPUTalks.xcodeproj \
-                   -scheme iGPUTalks \
-                   -configuration Release \
-                   -derivedDataPath build/Release \
-                   BUILD_DIR=build/Release/Outputs \
-                   ONLY_ACTIVE_ARCH=NO
+        # Info.plist dosyasını kext paketi içine taşıyoruz
+        cp iGPUTalks/Info.plist iGPUTalks.kext/Contents/Info.plist
+        
+        # Sürüm bilgilerini basıyoruz
+        /usr/libexec/PlistBuddy -c "Set :CFBundleVersion 29.41.10" iGPUTalks.kext/Contents/Info.plist
+        /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString 29.41.10" iGPUTalks.kext/Contents/Info.plist
 
     - name: Package Artifacts
       run: |
         mkdir -p Products
-        cd build/Release/Outputs/Release/
-        zip -r ../../../../Products/iGPUTalks-29.41.10-RELEASE.zip iGPUTalks.kext
-        cd ../../../../build/Debug/Outputs/Debug/
-        zip -r ../../../../Products/iGPUTalks-29.41.10-DEBUG.zip iGPUTalks.kext
+        zip -r Products/iGPUTalks-29.41.10-RELEASE.zip iGPUTalks.kext
 
     - name: Upload Compiled Kext Artifacts
       uses: actions/upload-artifact@v4
